@@ -1,0 +1,22 @@
+double f1atplus1, f1mtplus1, f2atplus1, f2mtplus1;
+for (int iter=0; iter<1e08; ++iter) {
+f1atplus1 = bound(f1a + 0.01*(-(f(1,a)*mu(a)*(1 - (1 - d)*p(1) - d*(f(1,a)*p(1) + f(2,m)*p(1) + f(1,m)*p(2) + f(2,a)*p(2)))*(1 + k*Power(-1 + zs(1),2))) + f(1,m)*mu(m)*((1 - d)*p(2) + d*(f(1,a)*p(1) + f(2,m)*p(1) + f(1,m)*p(2) + f(2,a)*p(2)))*(1 + k*Power(-1 + zs(1),2)) - f(1,a)*s(1)*zs(1) + f(2,m)*s(2)*zs(2)));
+
+f1mtplus1 = bound(f1m + 0.01*(f(1,a)*mu(a)*(1 - (1 - d)*p(1) - d*(f(1,a)*p(1) + f(2,m)*p(1) + f(1,m)*p(2) + f(2,a)*p(2)))*(1 + k*Power(-1 + zs(1),2)) - f(1,m)*mu(m)*((1 - d)*p(2) + d*(f(1,a)*p(1) + f(2,m)*p(1) + f(1,m)*p(2) + f(2,a)*p(2)))*(1 + k*Power(-1 + zs(1),2)) - f(1,m)*s(1)*zs(1) + f(2,a)*s(2)*zs(2)));
+
+f2atplus1 = bound(f2a + 0.01*(f(1,m)*s(1)*zs(1) + f(2,m)*mu(m)*((1 - d)*(1 - p(1)) + d*(f(1,a)*(1 - p(1)) + f(2,m)*(1 - p(1)) + f(1,m)*(1 - p(2)) + f(2,a)*(1 - p(2))))*(1 + k*Power(-1 + zs(2),2)) - f(2,a)*mu(a)*(1 - d*(f(1,a)*(1 - p(1)) + f(2,m)*(1 - p(1)) + f(1,m)*(1 - p(2)) + f(2,a)*(1 - p(2))) - (1 - d)*(1 - p(2)))*(1 + k*Power(-1 + zs(2),2)) - f(2,a)*s(2)*zs(2)));
+
+f2mtplus1 = bound(f2m + 0.01*(f(1,a)*s(1)*zs(1) - f(2,m)*mu(m)*((1 - d)*(1 - p(1)) + d*(f(1,a)*(1 - p(1)) + f(2,m)*(1 - p(1)) + f(1,m)*(1 - p(2)) + f(2,a)*(1 - p(2))))*(1 + k*Power(-1 + zs(2),2)) + f(2,a)*mu(a)*(1 - d*(f(1,a)*(1 - p(1)) + f(2,m)*(1 - p(1)) + f(1,m)*(1 - p(2)) + f(2,a)*(1 - p(2))) - (1 - d)*(1 - p(2)))*(1 + k*Power(-1 + zs(2),2)) - f(2,m)*s(2)*zs(2)));
+
+if (fabs(f1atplus1 - f1a) < 1e-07 && fabs(f2atplus1 - f2a) < 1e-07 && fabs(f1mtplus1 - f1m) < 1e-07 && fabs(f2mtplus1 - f2m) < 1e-07) {
+break;
+}
+f1a = f1atplus1;
+f2a = f2atplus1;
+f1m = f1mtplus1;
+f2m = f2mtplus1;
+}
+gsl_vector_set(f, 0, f1a);
+gsl_vector_set(f, 1, f2a);
+gsl_vector_set(f, 2, f1m);
+gsl_vector_set(f, 3, f2m);

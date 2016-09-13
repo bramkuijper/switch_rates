@@ -1,0 +1,6 @@
+double mu(m);
+double mu(a);
+double d;
+double s(1);
+double s(2);
+double k;
