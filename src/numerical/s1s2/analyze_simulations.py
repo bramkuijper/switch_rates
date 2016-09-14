@@ -55,7 +55,7 @@ def analyze_file(filename):
     # search the parameter line
     for lineno in linerange:
 
-        if re.match("^d;",fl[lineno]) != None:
+        if re.match("^mum;",fl[lineno]) != None:
             parline = lineno
             break
 

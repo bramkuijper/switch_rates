@@ -1,0 +1,1843 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     59032,       1834]
+NotebookOptionsPosition[     54377,       1691]
+NotebookOutlinePosition[     54716,       1706]
+CellTagsIndexPosition[     54673,       1703]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Evolving Environmental Change - 2 individuals/patch", "Title",
+ CellChangeTimes->{{3.68283925649305*^9, 3.682839275163673*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Clear", "[", "\"\<Global`*\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.682840018157737*^9, 3.682840024116688*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"nu", "[", "zs_", "]"}], ":=", 
+  RowBox[{"1", "+", 
+   RowBox[{"k", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{"zs", "-", "1"}], ")"}], "2"]}]}]}]], "Input",
+ CellChangeTimes->{{3.682844234210969*^9, 3.6828442495186*^9}, 
+   3.682844288110813*^9}],
+
+Cell[CellGroupData[{
+
+Cell["Patch frequencies", "Section",
+ CellChangeTimes->{{3.682839290907461*^9, 3.682839293683313*^9}}],
+
+Cell["\<\
+2 players per patch: 2 environments with each individual either adapted or \
+maladapted yielding 2x3 combinations\
+\>", "Text",
+ CellChangeTimes->{{3.682839352322534*^9, 3.682839377921241*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Basic functions", "Subsection",
+ CellChangeTimes->{{3.682839734424313*^9, 3.682839735832242*^9}}],
+
+Cell[TextData[{
+ "Determine phenotype of adult living in envt ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["e", "i"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " and having state x (a,m)"
+}], "Text",
+ CellChangeTimes->{{3.682839984971283*^9, 3.6828400101313667`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"phen", "[", 
+    RowBox[{"ei_", ",", "state_"}], "]"}], ":=", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"Count", "[", 
+         RowBox[{
+          RowBox[{"{", "state", "}"}], ",", "a"}], "]"}], ">", "0"}], "&&", 
+       RowBox[{"ei", "\[Equal]", "1"}]}], "||", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Count", "[", 
+         RowBox[{
+          RowBox[{"{", "state", "}"}], ",", "m"}], "]"}], ">", "0"}], "&&", 
+       RowBox[{"ei", "\[Equal]", "2"}]}]}], ",", "1", ",", "2"}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.68284001348737*^9, 3.682840037124978*^9}}],
+
+Cell[TextData[{
+ "Probability ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["p", "a"], "(", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", 
+     SubscriptBox["state", "1"], ",", 
+     SubscriptBox["state", "2"]}], ")"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " that a locally ",
+ StyleBox["adapted",
+  FontSlant->"Italic"],
+ " juvenile occupies a vacant position in a environment ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["e", "1"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch previously containing two adult breeders in state1 and state2"
+}], "Text",
+ CellChangeTimes->{{3.6828397381281157`*^9, 3.682839819678378*^9}, {
+  3.68284056184733*^9, 3.6828405665666933`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"pa", "[", 
+   RowBox[{"ei_", ",", "state1_", ",", "state2_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "-", "d"}], ")"}], 
+    FractionBox["1", "2"], 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"ei", "\[Equal]", "1"}], ",", 
+      RowBox[{
+       RowBox[{"p", "[", 
+        RowBox[{"phen", "[", 
+         RowBox[{"ei", ",", "state1"}], "]"}], "]"}], "+", 
+       RowBox[{"p", "[", 
+        RowBox[{"phen", "[", 
+         RowBox[{"ei", ",", "state2"}], "]"}], "]"}]}], ",", 
+      RowBox[{"1", "-", 
+       RowBox[{"p", "[", 
+        RowBox[{"phen", "[", 
+         RowBox[{"ei", ",", "state1"}], "]"}], "]"}], "+", "1", "-", 
+       RowBox[{"p", "[", 
+        RowBox[{"phen", "[", 
+         RowBox[{"ei", ",", "state1"}], "]"}], "]"}]}]}], "]"}]}], "+", 
+   RowBox[{
+    FractionBox["1", "2"], "d", " ", 
+    RowBox[{"Sum", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"f", "[", 
+        RowBox[{"ex", ",", 
+         RowBox[{"statex", "[", 
+          RowBox[{"[", "1", "]"}], "]"}], ",", 
+         RowBox[{"statex", "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], "]"}], 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"ei", "\[Equal]", "1"}], ",", 
+         RowBox[{
+          RowBox[{"p", "[", 
+           RowBox[{"phen", "[", 
+            RowBox[{"ex", ",", 
+             RowBox[{"statex", "[", 
+              RowBox[{"[", "1", "]"}], "]"}]}], "]"}], "]"}], "+", 
+          RowBox[{"p", "[", 
+           RowBox[{"phen", "[", 
+            RowBox[{"ex", ",", 
+             RowBox[{"statex", "[", 
+              RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"1", "-", 
+          RowBox[{"p", "[", 
+           RowBox[{"phen", "[", 
+            RowBox[{"ex", ",", 
+             RowBox[{"statex", "[", 
+              RowBox[{"[", "1", "]"}], "]"}]}], "]"}], "]"}], "+", "1", "-", 
+          RowBox[{"p", "[", 
+           RowBox[{"phen", "[", 
+            RowBox[{"ex", ",", 
+             RowBox[{"statex", "[", 
+              RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "]"}]}]}], "]"}]}], 
+      ",", 
+      RowBox[{"{", 
+       RowBox[{"ex", ",", "1", ",", "2"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"statex", ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"a", ",", "a"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"a", ",", "m"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"m", ",", "m"}], "}"}]}], "}"}]}], "}"}]}], 
+     "]"}]}]}]}]], "Input",
+ CellChangeTimes->{{3.682839719870585*^9, 3.682839720051049*^9}, {
+  3.682839822464223*^9, 3.6828398757381887`*^9}, {3.6828400587273703`*^9, 
+  3.682840294744473*^9}, {3.682840703519944*^9, 3.6828408266472*^9}, {
+  3.682841023676312*^9, 3.6828410239780693`*^9}, {3.68284118263155*^9, 
+  3.68284118294252*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"pa", "[", 
+    RowBox[{"1", ",", "a", ",", "m"}], "]"}], "/.", 
+   RowBox[{"d", "\[Rule]", "1"}]}], "//", "FullSimplify"}]], "Input",
+ CellChangeTimes->{{3.682841188469254*^9, 3.6828411995228653`*^9}, {
+   3.682841275411911*^9, 3.682841308552052*^9}, {3.6828415300931807`*^9, 
+   3.68284156846031*^9}, 3.682841608403376*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "2"], " ", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"2", " ", 
+        RowBox[{"f", "[", 
+         RowBox[{"1", ",", "a", ",", "a"}], "]"}]}], "+", 
+       RowBox[{"f", "[", 
+        RowBox[{"1", ",", "a", ",", "m"}], "]"}], "+", 
+       RowBox[{"f", "[", 
+        RowBox[{"2", ",", "a", ",", "m"}], "]"}], "+", 
+       RowBox[{"2", " ", 
+        RowBox[{"f", "[", 
+         RowBox[{"2", ",", "m", ",", "m"}], "]"}]}]}], ")"}], " ", 
+     RowBox[{"p", "[", "1", "]"}]}], "+", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"f", "[", 
+        RowBox[{"1", ",", "a", ",", "m"}], "]"}], "+", 
+       RowBox[{"2", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"f", "[", 
+           RowBox[{"1", ",", "m", ",", "m"}], "]"}], "+", 
+          RowBox[{"f", "[", 
+           RowBox[{"2", ",", "a", ",", "a"}], "]"}]}], ")"}]}], "+", 
+       RowBox[{"f", "[", 
+        RowBox[{"2", ",", "a", ",", "m"}], "]"}]}], ")"}], " ", 
+     RowBox[{"p", "[", "2", "]"}]}]}], ")"}]}]], "Output",
+ CellChangeTimes->{{3.682841192704534*^9, 3.682841199968245*^9}, {
+   3.682841276806492*^9, 3.6828413089177113`*^9}, {3.682841533120509*^9, 
+   3.682841569209649*^9}, 3.682841608983121*^9, 3.682842910011792*^9, 
+   3.682844514397462*^9, 3.6828447159831877`*^9, {3.682844846986526*^9, 
+   3.682844863474484*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"pa", "[", 
+    RowBox[{"1", ",", "a", ",", "a"}], "]"}], "/.", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"d", "\[Rule]", "1"}], ",", 
+     RowBox[{
+      RowBox[{"p", "[", "1", "]"}], "\[Rule]", 
+      RowBox[{"1", "/", "2"}]}], ",", 
+     RowBox[{
+      RowBox[{"p", "[", "2", "]"}], "\[Rule]", 
+      RowBox[{"1", "/", "2"}]}]}], "}"}]}], "//", "Simplify"}]], "Input",
+ CellChangeTimes->{{3.682841517422905*^9, 3.682841526380045*^9}, {
+  3.6828417602481403`*^9, 3.682841851534142*^9}, {3.682841912036694*^9, 
+  3.6828419663814487`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "2"], " ", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "a"}], "]"}], "+", 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}], "+", 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "m", ",", "m"}], "]"}], "+", 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "a"}], "]"}], "+", 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}], "+", 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "m", ",", "m"}], "]"}]}], ")"}]}]], "Output",
+ CellChangeTimes->{{3.682841821434124*^9, 3.682841842847329*^9}, {
+   3.682841920530855*^9, 3.682841966909236*^9}, 3.6828429100198517`*^9, 
+   3.6828445144075203`*^9, 3.682844716011902*^9, {3.682844847024642*^9, 
+   3.6828448635076113`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"pa", "[", 
+     RowBox[{"1", ",", "a", ",", "a"}], "]"}], "+", 
+    RowBox[{"pa", "[", 
+     RowBox[{"1", ",", "m", ",", "m"}], "]"}], "+", 
+    RowBox[{"pa", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}], "+", 
+    RowBox[{"pa", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}], "+", 
+    RowBox[{"pa", "[", 
+     RowBox[{"2", ",", "a", ",", "a"}], "]"}], "+", 
+    RowBox[{"pa", "[", 
+     RowBox[{"2", ",", "m", ",", "m"}], "]"}]}], "/.", 
+   RowBox[{"d", "\[Rule]", "1"}]}], "/.", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"p", "[", "1", "]"}], "\[Rule]", 
+     RowBox[{"1", "/", "2"}]}], ",", 
+    RowBox[{
+     RowBox[{"p", "[", "2", "]"}], "\[Rule]", 
+     RowBox[{"1", "/", "2"}]}]}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.682840359525919*^9, 3.682840472752337*^9}, {
+   3.68284050478489*^9, 3.6828405078070307`*^9}, {3.682840625326007*^9, 
+   3.6828406531702023`*^9}, {3.6828408388166523`*^9, 3.682840855078033*^9}, {
+   3.682840895231802*^9, 3.682840895876672*^9}, 3.682841063673695*^9, {
+   3.682841159671711*^9, 3.6828411607109137`*^9}, {3.682841340819521*^9, 
+   3.682841343826193*^9}, {3.682841779434367*^9, 3.682841783802148*^9}, {
+   3.6828418548084707`*^9, 3.682841876119692*^9}}],
+
+Cell[BoxData[
+ RowBox[{"3", " ", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "a"}], "]"}], "+", 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}], "+", 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "m", ",", "m"}], "]"}], "+", 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "a"}], "]"}], "+", 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}], "+", 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "m", ",", "m"}], "]"}]}], ")"}]}]], "Output",
+ CellChangeTimes->{{3.6828403645828123`*^9, 3.6828403749069357`*^9}, {
+   3.682840416467767*^9, 3.6828404197217913`*^9}, 3.682840473560335*^9, 
+   3.682840508423678*^9, {3.6828406322184362`*^9, 3.682840653582881*^9}, {
+   3.682840809632477*^9, 3.682840855495788*^9}, 3.682840896550845*^9, 
+   3.6828410256035547`*^9, 3.6828410644117517`*^9, 3.68284116167943*^9, 
+   3.682841344330983*^9, 3.68284178431448*^9, {3.6828418553712053`*^9, 
+   3.6828418765709476`*^9}, 3.68284291005037*^9, 3.682844514450981*^9, 
+   3.682844716138966*^9, {3.682844847062601*^9, 3.682844863543186*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "df1aadt - changes in patch frequency ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["e", "1"], TraditionalForm]], "None",
+  FormatType->"TraditionalForm"],
+ " containing two adapted individuals"
+}], "Subsection",
+ CellChangeTimes->{{3.682839509462537*^9, 3.6828395373016853`*^9}}],
+
+Cell["Environmental change", "Text",
+ CellChangeTimes->{{3.682839542197707*^9, 3.682839547549268*^9}, {
+  3.682842030542259*^9, 3.6828420327973957`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1aadt1", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "m"}], "]"}], 
+     RowBox[{"s", "[", "2", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"2", ",", "m", ",", "m"}], "]"}]}], "-", 
+    RowBox[{
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "a"}], "]"}], 
+     RowBox[{"s", "[", "1", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"1", ",", "a", ",", "a"}], "]"}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682839380072323*^9, 3.6828394319562407`*^9}, {
+   3.682839462179172*^9, 3.6828394982591333`*^9}, {3.6828395877929707`*^9, 
+   3.682839624521082*^9}, 3.6828427150538483`*^9}],
+
+Cell[TextData[{
+ "Mortality of an adapted individual in f[",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "a", ",", "a"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by maladapted individual"
+}], "Text",
+ CellChangeTimes->{{3.6828395511092987`*^9, 3.682839568964961*^9}, {
+  3.682839664835093*^9, 3.6828396925311937`*^9}, {3.682842017110572*^9, 
+  3.682842028071697*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1aadt2", "=", 
+   RowBox[{
+    RowBox[{"-", "2"}], " ", 
+    RowBox[{"mu", "[", "a", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "a"}], "]"}], "]"}], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"pa", "[", 
+       RowBox[{"1", ",", "a", ",", "a"}], "]"}]}], ")"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "a"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682839571750657*^9, 3.682839575182729*^9}, {
+   3.682839637405229*^9, 3.682839713318451*^9}, 3.682842714454089*^9}],
+
+Cell["\<\
+Mortality of a maladapted individual in f[e1,a,m]-patch replaced by an \
+adapted individual\
+\>", "Text",
+ CellChangeTimes->{{3.6828420350052547`*^9, 3.6828420907641697`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1aadt3", "=", 
+   RowBox[{
+    RowBox[{"mu", "[", "m", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "m"}], "]"}], "]"}], 
+    RowBox[{"pa", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842092024954*^9, 3.682842113247922*^9}, 
+   3.6828427137413187`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1aadt", "=", 
+   RowBox[{"df1aadt1", "+", "df1aadt2", "+", "df1aadt3"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842305587833*^9, 3.682842316563274*^9}, 
+   3.682842713092329*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+df1amdt - changes in frequency of e1 patches containing one adapted and one \
+maladapted breeder\
+\>", "Subsection",
+ CellChangeTimes->{{3.682842189202817*^9, 3.682842210626224*^9}}],
+
+Cell["Environmental change", "Text",
+ CellChangeTimes->{{3.6828422127300663`*^9, 3.682842215057724*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1amdt1", "=", 
+   RowBox[{
+    RowBox[{
+     FractionBox["1", "2"], 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"zs", "[", 
+        RowBox[{"2", ",", "a"}], "]"}], "+", 
+       RowBox[{"zs", "[", 
+        RowBox[{"2", ",", "m"}], "]"}]}], ")"}], 
+     RowBox[{"s", "[", "2", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"2", ",", "a", ",", "m"}], "]"}]}], "-", 
+    RowBox[{
+     FractionBox["1", "2"], 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"zs", "[", 
+        RowBox[{"1", ",", "a"}], "]"}], "+", 
+       RowBox[{"zs", "[", 
+        RowBox[{"1", ",", "m"}], "]"}]}], ")"}], 
+     RowBox[{"s", "[", "1", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"1", ",", "a", ",", "m"}], "]"}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842215959119*^9, 3.682842268788424*^9}}],
+
+Cell[TextData[{
+ "Mortality of an adapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    SubscriptBox["e", "1"]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ",a,m]-patch, replaced by a maladapted individual"
+}], "Text",
+ CellChangeTimes->{{3.682842271488872*^9, 3.682842294159829*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1amdt2", "=", 
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{"mu", "[", "a", "]"}]}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "a"}], "]"}], "]"}], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"pa", "[", 
+       RowBox[{"1", ",", "a", ",", "m"}], "]"}]}], ")"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842298036358*^9, 3.682842332476489*^9}, {
+   3.68284247717971*^9, 3.6828424863634167`*^9}, 3.682842708701846*^9}],
+
+Cell[TextData[{
+ "Mortality of a maladapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "a", ",", "m"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by an adapted individual"
+}], "Text",
+ CellChangeTimes->{{3.682842525571271*^9, 3.682842570713998*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1amdt3", "=", 
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{"mu", "[", "m", "]"}]}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "m"}], "]"}], "]"}], 
+    RowBox[{"pa", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.68284257135557*^9, 3.682842586736596*^9}, {
+   3.682842621753257*^9, 3.6828426219607162`*^9}, 3.682842707990251*^9}],
+
+Cell[TextData[{
+ "Mortality of an adapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "a", ",", "a"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by a maladapted individual"
+}], "Text",
+ CellChangeTimes->{{3.682842589617907*^9, 3.6828426148811817`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1amdt4", "=", 
+   RowBox[{"2", 
+    RowBox[{"mu", "[", "a", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "a"}], "]"}], "]"}], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"pa", "[", 
+       RowBox[{"1", ",", "a", ",", "a"}], "]"}]}], ")"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "a"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842616446541*^9, 3.682842648430285*^9}, 
+   3.682842707358659*^9}],
+
+Cell[TextData[{
+ "Mortality of a maladapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "m", ",", "m"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by an adapted individual"
+}], "Text",
+ CellChangeTimes->{{3.682842650272193*^9, 3.682842668296255*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1amdt5", "=", 
+   RowBox[{"2", 
+    RowBox[{"mu", "[", "m", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "m"}], "]"}], "]"}], 
+    RowBox[{"pa", "[", 
+     RowBox[{"1", ",", "m", ",", "m"}], "]"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "m", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842669016448*^9, 3.6828427069020452`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1amdt", "=", 
+   RowBox[{
+   "df1amdt1", "+", "df1amdt2", "+", "df1amdt3", "+", "df1amdt4", "+", 
+    "df1amdt5"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842688264353*^9, 3.682842705803491*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+df1mmdt - changes in frequency of e1 patches containing two maladapted \
+breeders\
+\>", "Subsection",
+ CellChangeTimes->{{3.682842741814516*^9, 3.682842757901539*^9}}],
+
+Cell["Environmental change", "Text",
+ CellChangeTimes->{{3.682842766285914*^9, 3.6828427707015467`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1mmdt1", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "a"}], "]"}], 
+     RowBox[{"s", "[", "2", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"2", ",", "a", ",", "a"}], "]"}]}], "-", 
+    RowBox[{
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "m"}], "]"}], 
+     RowBox[{"s", "[", "1", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"1", ",", "m", ",", "m"}], "]"}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842215959119*^9, 3.682842268788424*^9}, {
+  3.682842778193564*^9, 3.682842812532613*^9}}],
+
+Cell[TextData[{
+ "Mortality of a maladapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "m", ",", "m"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by an adapted individual"
+}], "Text",
+ CellChangeTimes->{{3.6828428156767263`*^9, 3.682842833940713*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1mmdt2", "=", 
+   RowBox[{
+    RowBox[{"-", "2"}], 
+    RowBox[{"mu", "[", "m", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "m"}], "]"}], "]"}], 
+    RowBox[{"pa", "[", 
+     RowBox[{"1", ",", "m", ",", "m"}], "]"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "m", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842834671229*^9, 3.6828428543443203`*^9}}],
+
+Cell[TextData[{
+ "Mortality of an adapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "a", ",", "m"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by a maladapted individual"
+}], "Text",
+ CellChangeTimes->{{3.682842856083823*^9, 3.682842875219266*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1mmdt3", "=", 
+   RowBox[{
+    RowBox[{"mu", "[", "a", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "a"}], "]"}], "]"}], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"pa", "[", 
+       RowBox[{"1", ",", "a", ",", "m"}], "]"}]}], ")"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842876040786*^9, 3.682842894459058*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df1mmdt", "=", 
+   RowBox[{"df1mmdt1", "+", "df1mmdt2", "+", "df1mmdt3"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.68284289642645*^9, 3.6828429061026783`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+df2aadt - changes in frequency of e2 patches containing two adapted breeders\
+\>", "Subsection",
+ CellChangeTimes->{{3.6828429184090977`*^9, 3.682842937160589*^9}}],
+
+Cell["Environmental change", "Text",
+ CellChangeTimes->{{3.682839542197707*^9, 3.682839547549268*^9}, {
+  3.682842030542259*^9, 3.6828420327973957`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2aadt1", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "m"}], "]"}], 
+     RowBox[{"s", "[", "1", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"1", ",", "m", ",", "m"}], "]"}]}], "-", 
+    RowBox[{
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "a"}], "]"}], 
+     RowBox[{"s", "[", "2", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"2", ",", "a", ",", "a"}], "]"}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682839380072323*^9, 3.6828394319562407`*^9}, {
+   3.682839462179172*^9, 3.6828394982591333`*^9}, {3.6828395877929707`*^9, 
+   3.682839624521082*^9}, 3.6828427150538483`*^9, {3.682842948802326*^9, 
+   3.6828429727914963`*^9}}],
+
+Cell[TextData[{
+ "Mortality of an adapted individual in f[",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SubscriptBox["e", "2"], ",", "a", ",", "a"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by maladapted individual"
+}], "Text",
+ CellChangeTimes->{{3.6828395511092987`*^9, 3.682839568964961*^9}, {
+  3.682839664835093*^9, 3.6828396925311937`*^9}, {3.682842017110572*^9, 
+  3.682842028071697*^9}, {3.6828430489135847`*^9, 3.682843049762621*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2aadt2", "=", 
+   RowBox[{
+    RowBox[{"-", "2"}], " ", 
+    RowBox[{"mu", "[", "a", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "a"}], "]"}], "]"}], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"pa", "[", 
+       RowBox[{"2", ",", "a", ",", "a"}], "]"}]}], ")"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "a"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682839571750657*^9, 3.682839575182729*^9}, {
+   3.682839637405229*^9, 3.682839713318451*^9}, 3.682842714454089*^9, {
+   3.682842951834765*^9, 3.682842981998728*^9}}],
+
+Cell["\<\
+Mortality of a maladapted individual in f[e2,a,m]-patch replaced by an \
+adapted individual\
+\>", "Text",
+ CellChangeTimes->{{3.6828420350052547`*^9, 3.6828420907641697`*^9}, {
+  3.682843046895115*^9, 3.682843047135086*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2aadt3", "=", 
+   RowBox[{
+    RowBox[{"mu", "[", "m", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "m"}], "]"}], "]"}], 
+    RowBox[{"pa", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842092024954*^9, 3.682842113247922*^9}, 
+   3.6828427137413187`*^9, {3.682842953650181*^9, 3.6828429537270803`*^9}, {
+   3.6828429849913397`*^9, 3.6828429889019413`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2aadt", "=", 
+   RowBox[{"df2aadt1", "+", "df2aadt2", "+", "df2aadt3"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842305587833*^9, 3.682842316563274*^9}, 
+   3.682842713092329*^9, {3.682842957310297*^9, 3.682842962483356*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+df2amdt - changes in frequency of e2 patches containing one adapted and one \
+maladapted breeder\
+\>", "Subsection",
+ CellChangeTimes->{{3.682842189202817*^9, 3.682842210626224*^9}, {
+  3.682843000879291*^9, 3.682843002575117*^9}}],
+
+Cell["Environmental change", "Text",
+ CellChangeTimes->{{3.6828422127300663`*^9, 3.682842215057724*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2amdt1", "=", 
+   RowBox[{
+    RowBox[{
+     FractionBox["1", "2"], 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"zs", "[", 
+        RowBox[{"1", ",", "a"}], "]"}], "+", 
+       RowBox[{"zs", "[", 
+        RowBox[{"1", ",", "m"}], "]"}]}], ")"}], 
+     RowBox[{"s", "[", "1", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"1", ",", "a", ",", "m"}], "]"}]}], "-", 
+    RowBox[{
+     FractionBox["1", "2"], 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"zs", "[", 
+        RowBox[{"2", ",", "a"}], "]"}], "+", 
+       RowBox[{"zs", "[", 
+        RowBox[{"2", ",", "m"}], "]"}]}], ")"}], 
+     RowBox[{"s", "[", "2", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"2", ",", "a", ",", "m"}], "]"}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842215959119*^9, 3.682842268788424*^9}, {
+  3.682843004524411*^9, 3.682843019808811*^9}}],
+
+Cell[TextData[{
+ "Mortality of an adapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    SubscriptBox["e", "2"]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ",a,m]-patch, replaced by a maladapted individual"
+}], "Text",
+ CellChangeTimes->{{3.682842271488872*^9, 3.682842294159829*^9}, {
+  3.682843043372232*^9, 3.682843044466359*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2amdt2", "=", 
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{"mu", "[", "a", "]"}]}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "a"}], "]"}], "]"}], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"pa", "[", 
+       RowBox[{"2", ",", "a", ",", "m"}], "]"}]}], ")"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842298036358*^9, 3.682842332476489*^9}, {
+   3.68284247717971*^9, 3.6828424863634167`*^9}, 3.682842708701846*^9, {
+   3.682843024545401*^9, 3.682843041134413*^9}}],
+
+Cell[TextData[{
+ "Mortality of a maladapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "a", ",", "m"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by an adapted individual"
+}], "Text",
+ CellChangeTimes->{{3.682842525571271*^9, 3.682842570713998*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2amdt3", "=", 
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{"mu", "[", "m", "]"}]}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "m"}], "]"}], "]"}], 
+    RowBox[{"pa", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.68284257135557*^9, 3.682842586736596*^9}, {
+   3.682842621753257*^9, 3.6828426219607162`*^9}, 3.682842707990251*^9, {
+   3.682843061673012*^9, 3.682843084844593*^9}}],
+
+Cell[TextData[{
+ "Mortality of an adapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "a", ",", "a"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by a maladapted individual"
+}], "Text",
+ CellChangeTimes->{{3.682842589617907*^9, 3.6828426148811817`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2amdt4", "=", 
+   RowBox[{"2", 
+    RowBox[{"mu", "[", "a", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "a"}], "]"}], "]"}], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"pa", "[", 
+       RowBox[{"2", ",", "a", ",", "a"}], "]"}]}], ")"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "a"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842616446541*^9, 3.682842648430285*^9}, 
+   3.682842707358659*^9, {3.682843064560337*^9, 3.682843091077036*^9}}],
+
+Cell[TextData[{
+ "Mortality of a maladapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "m", ",", "m"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by an adapted individual"
+}], "Text",
+ CellChangeTimes->{{3.682842650272193*^9, 3.682842668296255*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2amdt5", "=", 
+   RowBox[{"2", 
+    RowBox[{"mu", "[", "m", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "m"}], "]"}], "]"}], 
+    RowBox[{"pa", "[", 
+     RowBox[{"2", ",", "m", ",", "m"}], "]"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "m", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842669016448*^9, 3.6828427069020452`*^9}, {
+  3.682843066223201*^9, 3.6828430978841248`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2amdt", "=", 
+   RowBox[{
+   "df2amdt1", "+", "df2amdt2", "+", "df2amdt3", "+", "df2amdt4", "+", 
+    "df2amdt5"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842688264353*^9, 3.682842705803491*^9}, {
+  3.6828430678925323`*^9, 3.682843076849452*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+df2mmdt - changes in frequency of e2 patches containing two maladapted \
+breeders\
+\>", "Subsection",
+ CellChangeTimes->{{3.682842741814516*^9, 3.682842757901539*^9}, {
+  3.6828441331926727`*^9, 3.682844135630581*^9}}],
+
+Cell["Environmental change", "Text",
+ CellChangeTimes->{{3.682842766285914*^9, 3.6828427707015467`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2mmdt1", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "a"}], "]"}], 
+     RowBox[{"s", "[", "1", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"1", ",", "a", ",", "a"}], "]"}]}], "-", 
+    RowBox[{
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "m"}], "]"}], 
+     RowBox[{"s", "[", "2", "]"}], 
+     RowBox[{"f", "[", 
+      RowBox[{"2", ",", "m", ",", "m"}], "]"}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842215959119*^9, 3.682842268788424*^9}, {
+  3.682842778193564*^9, 3.682842812532613*^9}, {3.6828441410208883`*^9, 
+  3.682844151114973*^9}}],
+
+Cell[TextData[{
+ "Mortality of a maladapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "m", ",", "m"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by an adapted individual"
+}], "Text",
+ CellChangeTimes->{{3.6828428156767263`*^9, 3.682842833940713*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2mmdt2", "=", 
+   RowBox[{
+    RowBox[{"-", "2"}], 
+    RowBox[{"mu", "[", "m", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"2", ",", "m"}], "]"}], "]"}], 
+    RowBox[{"pa", "[", 
+     RowBox[{"2", ",", "m", ",", "m"}], "]"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "m", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842834671229*^9, 3.6828428543443203`*^9}, {
+  3.682844152788323*^9, 3.682844158618424*^9}}],
+
+Cell[TextData[{
+ "Mortality of an adapted individual in a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{
+     SubscriptBox["e", "1"], ",", "a", ",", "m"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "-patch, replaced by a maladapted individual"
+}], "Text",
+ CellChangeTimes->{{3.682842856083823*^9, 3.682842875219266*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2mmdt3", "=", 
+   RowBox[{
+    RowBox[{"mu", "[", "a", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "a"}], "]"}], "]"}], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"pa", "[", 
+       RowBox[{"2", ",", "a", ",", "m"}], "]"}]}], ")"}], 
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682842876040786*^9, 3.682842894459058*^9}, {
+  3.682844160548203*^9, 3.682844180042148*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"df2mmdt", "=", 
+   RowBox[{"df2mmdt1", "+", "df2mmdt2", "+", "df2mmdt3"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.68284289642645*^9, 3.6828429061026783`*^9}, {
+  3.6828441628499193`*^9, 3.6828441755759172`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Solve for equilibrium patch frequencies", "Subsection",
+ CellChangeTimes->{{3.682844188372295*^9, 3.68284419688402*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dfdtconst", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"f", "[", 
+      RowBox[{"1", ",", "a", ",", "a"}], "]"}], "+", 
+     RowBox[{"f", "[", 
+      RowBox[{"2", ",", "a", ",", "a"}], "]"}], "+", 
+     RowBox[{"f", "[", 
+      RowBox[{"1", ",", "a", ",", "m"}], "]"}], "+", 
+     RowBox[{"f", "[", 
+      RowBox[{"2", ",", "a", ",", "m"}], "]"}], "+", 
+     RowBox[{"f", "[", 
+      RowBox[{"1", ",", "m", ",", "m"}], "]"}], "+", 
+     RowBox[{"f", "[", 
+      RowBox[{"2", ",", "m", ",", "m"}], "]"}]}], "\[Equal]", "1"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.682844302412682*^9, 3.6828443146524973`*^9}, {
+  3.682844414907618*^9, 3.68284443839462*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"syspatch", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"df1aadt", "\[Equal]", "0"}], ",", 
+     RowBox[{"df1amdt", "\[Equal]", "0"}], ",", 
+     RowBox[{"df1mmdt", "\[Equal]", "0"}], ",", 
+     RowBox[{"df2aadt", "\[Equal]", "0"}], ",", 
+     RowBox[{"df2amdt", "\[Equal]", "0"}], ",", 
+     RowBox[{"df2mmdt", "\[Equal]", "0"}]}], "}"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682844484883501*^9, 3.68284455262272*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"syspatch1", "=", 
+   RowBox[{"ReplacePart", "[", 
+    RowBox[{"syspatch", ",", 
+     RowBox[{"1", "\[Rule]", "dfdtconst"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"syspatch2", "=", 
+   RowBox[{"ReplacePart", "[", 
+    RowBox[{"syspatch", ",", 
+     RowBox[{"6", "\[Rule]", "dfdtconst"}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.682844554378042*^9, 3.682844578228119*^9}, {
+  3.682844859868082*^9, 3.682844861049427*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ansTest", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"mum_", ",", "mua_"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"p1_", ",", "p2_"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"ds_", ",", "ks_"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"s1_", ",", "s2_"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"zs1_", ",", "zs2_"}], "}"}]}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"syspatch1", "/.", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"mu", "[", "m", "]"}], "\[Rule]", "mum"}], ",", 
+     RowBox[{
+      RowBox[{"mu", "[", "a", "]"}], "\[Rule]", "mua"}], ",", 
+     RowBox[{
+      RowBox[{"p", "[", "1", "]"}], "\[Rule]", "p1"}], ",", 
+     RowBox[{
+      RowBox[{"p", "[", "2", "]"}], "\[Rule]", "p2"}], ",", 
+     RowBox[{"d", "\[Rule]", "ds"}], ",", 
+     RowBox[{"k", "\[Rule]", "ks"}], ",", 
+     RowBox[{
+      RowBox[{"s", "[", "1", "]"}], "\[Rule]", "s1"}], ",", 
+     RowBox[{
+      RowBox[{"s", "[", "2", "]"}], "\[Rule]", "s2"}], ",", 
+     RowBox[{
+      RowBox[{"zs", "[", "1", "]"}], "\[Rule]", "zs1"}], ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"zs", "[", "2", "]"}], "\[Rule]", "zs2"}], "/.", 
+      RowBox[{
+       RowBox[{"f", "[", 
+        RowBox[{"1", ",", "a", ",", "a"}], "]"}], "\[Rule]", 
+       RowBox[{"1", "/", "6"}]}]}], ",", 
+     RowBox[{
+      RowBox[{"f", "[", 
+       RowBox[{"1", ",", "a", ",", "m"}], "]"}], "\[Rule]", 
+      RowBox[{"1", "/", "6"}]}], ",", 
+     RowBox[{
+      RowBox[{"f", "[", 
+       RowBox[{"1", ",", "m", ",", "m"}], "]"}], "\[Rule]", 
+      RowBox[{"1", "/", "6"}]}], ",", 
+     RowBox[{
+      RowBox[{"f", "[", 
+       RowBox[{"2", ",", "a", ",", "a"}], "]"}], "\[Rule]", 
+      RowBox[{"1", "/", "6"}]}], ",", 
+     RowBox[{
+      RowBox[{"f", "[", 
+       RowBox[{"2", ",", "a", ",", "m"}], "]"}], "\[Rule]", 
+      RowBox[{"1", "/", "6"}]}], ",", 
+     RowBox[{
+      RowBox[{"f", "[", 
+       RowBox[{"2", ",", "m", ",", "m"}], "]"}], "\[Rule]", 
+      RowBox[{"1", "/", "6"}]}]}], "}"}]}]}]], "Input",
+ CellChangeTimes->{{3.682844199111166*^9, 3.682844224606859*^9}, {
+  3.682844441749*^9, 3.682844478975329*^9}, {3.682844531163204*^9, 
+  3.6828445315602903`*^9}, {3.682844581072274*^9, 3.682844677536944*^9}, {
+  3.682844729987465*^9, 3.682844773807713*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"ans", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"mum_", ",", "mua_"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"p1_", ",", "p2_"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"ds_", ",", "ks_"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"s1_", ",", "s2_"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"zs1_", ",", "zs2_"}], "}"}]}], "]"}], ":=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"FindRoot", "[", 
+    RowBox[{
+     RowBox[{"syspatch1", "/.", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"mu", "[", "m", "]"}], "\[Rule]", "mum"}], ",", 
+        RowBox[{
+         RowBox[{"mu", "[", "a", "]"}], "\[Rule]", "mua"}], ",", 
+        RowBox[{
+         RowBox[{"p", "[", "1", "]"}], "\[Rule]", "p1"}], ",", 
+        RowBox[{
+         RowBox[{"p", "[", "2", "]"}], "\[Rule]", "p2"}], ",", 
+        RowBox[{"d", "\[Rule]", "ds"}], ",", 
+        RowBox[{"k", "\[Rule]", "ks"}], ",", 
+        RowBox[{
+         RowBox[{"s", "[", "1", "]"}], "\[Rule]", "s1"}], ",", 
+        RowBox[{
+         RowBox[{"s", "[", "2", "]"}], "\[Rule]", "s2"}], ",", 
+        RowBox[{
+         RowBox[{"zs", "[", 
+          RowBox[{"1", ",", "a"}], "]"}], "\[Rule]", "zs1"}], ",", 
+        RowBox[{
+         RowBox[{"zs", "[", 
+          RowBox[{"2", ",", "a"}], "]"}], "\[Rule]", "zs2"}], ",", 
+        RowBox[{
+         RowBox[{"zs", "[", 
+          RowBox[{"1", ",", "m"}], "]"}], "\[Rule]", "zs1"}], ",", 
+        RowBox[{
+         RowBox[{"zs", "[", 
+          RowBox[{"2", ",", "m"}], "]"}], "\[Rule]", "zs2"}]}], "}"}]}], ",", 
+     
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"1", ",", "a", ",", "a"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"1", ",", "a", ",", "m"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"1", ",", "m", ",", "m"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"2", ",", "a", ",", "a"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"2", ",", "a", ",", "m"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"2", ",", "m", ",", "m"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}]}], "}"}]}], "]"}]}], ";"}]], "Input",\
+
+ CellChangeTimes->{{3.682844199111166*^9, 3.682844224606859*^9}, {
+  3.682844441749*^9, 3.682844478975329*^9}, {3.682844531163204*^9, 
+  3.6828445315602903`*^9}, {3.682844581072274*^9, 3.682844677536944*^9}, {
+  3.6828447930515327`*^9, 3.682844815210123*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"ansAlt", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"mum_", ",", "mua_"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"p1_", ",", "p2_"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"ds_", ",", "ks_"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"s1_", ",", "s2_"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"zs1_", ",", "zs2_"}], "}"}]}], "]"}], ":=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"FindRoot", "[", 
+    RowBox[{
+     RowBox[{"syspatch2", "/.", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"mu", "[", "m", "]"}], "\[Rule]", "mum"}], ",", 
+        RowBox[{
+         RowBox[{"mu", "[", "a", "]"}], "\[Rule]", "mua"}], ",", 
+        RowBox[{
+         RowBox[{"p", "[", "1", "]"}], "\[Rule]", "p1"}], ",", 
+        RowBox[{
+         RowBox[{"p", "[", "2", "]"}], "\[Rule]", "p2"}], ",", 
+        RowBox[{"d", "\[Rule]", "ds"}], ",", 
+        RowBox[{"k", "\[Rule]", "ks"}], ",", 
+        RowBox[{
+         RowBox[{"s", "[", "1", "]"}], "\[Rule]", "s1"}], ",", 
+        RowBox[{
+         RowBox[{"s", "[", "2", "]"}], "\[Rule]", "s2"}], ",", 
+        RowBox[{
+         RowBox[{"zs", "[", 
+          RowBox[{"1", ",", "a"}], "]"}], "\[Rule]", "zs1"}], ",", 
+        RowBox[{
+         RowBox[{"zs", "[", 
+          RowBox[{"2", ",", "a"}], "]"}], "\[Rule]", "zs2"}], ",", 
+        RowBox[{
+         RowBox[{"zs", "[", 
+          RowBox[{"1", ",", "m"}], "]"}], "\[Rule]", "zs1"}], ",", 
+        RowBox[{
+         RowBox[{"zs", "[", 
+          RowBox[{"2", ",", "m"}], "]"}], "\[Rule]", "zs2"}]}], "}"}]}], ",", 
+     
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"1", ",", "a", ",", "a"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"1", ",", "a", ",", "m"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"1", ",", "m", ",", "m"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"2", ",", "a", ",", "a"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"2", ",", "a", ",", "m"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"2", ",", "m", ",", "m"}], "]"}], ",", 
+         RowBox[{"1", "/", "6"}]}], "}"}]}], "}"}]}], "]"}]}], ";"}]], "Input",\
+
+ CellChangeTimes->{{3.682844199111166*^9, 3.682844224606859*^9}, {
+  3.682844441749*^9, 3.682844478975329*^9}, {3.682844531163204*^9, 
+  3.6828445315602903`*^9}, {3.682844581072274*^9, 3.682844688243565*^9}, {
+  3.682844832244445*^9, 3.682844834671414*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ans", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2.0", ",", "1.0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.5", ",", "0.3"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.2", ",", "0.8"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.8", ",", "0.3"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.9", ",", "1.1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.682844781892026*^9, 3.682844782378977*^9}, {
+  3.682844819490077*^9, 3.682844819955771*^9}, {3.682844876997488*^9, 
+  3.682844878226667*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "a"}], "]"}], "\[Rule]", 
+    "0.06889271469466902`"}], ",", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}], "\[Rule]", 
+    "0.13507890649152032`"}], ",", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "m", ",", "m"}], "]"}], "\[Rule]", 
+    "0.11031409309952499`"}], ",", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "a"}], "]"}], "\[Rule]", 
+    "0.410256712991235`"}], ",", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}], "\[Rule]", 
+    "0.2263439961216796`"}], ",", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "m", ",", "m"}], "]"}], "\[Rule]", 
+    "0.04911357660137113`"}]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.6828447827654123`*^9, {3.682844821396532*^9, 3.682844878707765*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ansAlt", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2.0", ",", "1.0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.5", ",", "0.3"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.2", ",", "0.8"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.8", ",", "0.3"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.9", ",", "1.1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.682844690394718*^9, 3.682844712964632*^9}, {
+  3.682844838725485*^9, 3.682844839098769*^9}, {3.682844870750375*^9, 
+  3.682844872394734*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "a"}], "]"}], "\[Rule]", 
+    "0.06889271469466897`"}], ",", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "a", ",", "m"}], "]"}], "\[Rule]", 
+    "0.13507890649152032`"}], ",", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"1", ",", "m", ",", "m"}], "]"}], "\[Rule]", 
+    "0.11031409309952499`"}], ",", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "a"}], "]"}], "\[Rule]", 
+    "0.41025671299123506`"}], ",", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "a", ",", "m"}], "]"}], "\[Rule]", 
+    "0.2263439961216796`"}], ",", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"2", ",", "m", ",", "m"}], "]"}], "\[Rule]", 
+    "0.04911357660137112`"}]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.682844716599186*^9, {3.6828448395941877`*^9, 3.682844874177581*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Reproductive values", "Section",
+ CellChangeTimes->{{3.682844962098281*^9, 3.6828449638582706`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+v[1,a,m]: Reproductive value of focal adapted individual sharing a patch with \
+a maladapted individual\
+\>", "Subsection",
+ CellChangeTimes->{{3.682845152607973*^9, 3.6828451899586554`*^9}}],
+
+Cell["Environmental change:", "Text",
+ CellChangeTimes->{{3.682845239557769*^9, 3.6828452435668077`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"dv1amdt1", "=", 
+  RowBox[{
+   FractionBox["1", "2"], 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "a"}], "]"}], "+", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "m"}], "]"}]}], ")"}], 
+   RowBox[{"s", "[", "1", "]"}], 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"v", "[", 
+      RowBox[{"2", ",", "m", ",", "a"}], "]"}], "-", 
+     RowBox[{"v", "[", 
+      RowBox[{"1", ",", "a", ",", "m"}], "]"}]}], ")"}]}]}]], "Input",
+ CellChangeTimes->{{3.6828451992130203`*^9, 3.682845246071899*^9}}],
+
+Cell["Mortality of focal, replaced by her own maladapted offspring", "Text",
+ CellChangeTimes->{{3.6828452501496277`*^9, 3.68284525658976*^9}, {
+  3.682845329972937*^9, 3.682845331604385*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dv1amdt2", "=", 
+   RowBox[{
+    RowBox[{"mu", "[", "a", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "a"}], "]"}], "]"}], 
+    FractionBox["1", "2"], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", "d"}], ")"}], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"p", "[", "1", "]"}]}], ")"}], 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"v", "[", 
+       RowBox[{"1", ",", "m", ",", "m"}], "]"}], "-", 
+      RowBox[{"v", "[", 
+       RowBox[{"1", ",", "a", ",", "m"}], "]"}]}], ")"}]}]}], ";"}]], "Input",\
+
+ CellChangeTimes->{{3.682845258154578*^9, 3.682845356278455*^9}}],
+
+Cell["Mortality of focal, replaced by nonfocal offspring", "Text",
+ CellChangeTimes->{{3.68284535944386*^9, 3.682845365923882*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dv1amdt3", "=", 
+   RowBox[{
+    RowBox[{"mu", "[", "a", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "a"}], "]"}], "]"}], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{
+       FractionBox["1", "2"], 
+       RowBox[{"(", 
+        RowBox[{"1", "-", "d"}], ")"}]}]}], ")"}], 
+    RowBox[{"(", 
+     RowBox[{"-", 
+      RowBox[{"v", "[", 
+       RowBox[{"1", ",", "a", ",", "m"}], "]"}]}], ")"}]}]}], ";"}]], "Input",\
+
+ CellChangeTimes->{{3.682845368271618*^9, 3.682845390486068*^9}}],
+
+Cell["Mortality of nonfocal, replaced by focal's offspring", "Text",
+ CellChangeTimes->{{3.682845393347591*^9, 3.682845405355267*^9}}],
+
+Cell[BoxData[
+ RowBox[{"dv1amdt4", "=", 
+  RowBox[{
+   RowBox[{"mu", "[", "m", "]"}], 
+   RowBox[{"nu", "[", 
+    RowBox[{"zs", "[", 
+     RowBox[{"1", ",", "m"}], "]"}], "]"}], 
+   FractionBox["1", "2"], 
+   RowBox[{"(", 
+    RowBox[{"1", "-", "d"}], ")"}], 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "-", 
+        RowBox[{"p", "[", "1", "]"}]}], ")"}], 
+      RowBox[{"v", "[", 
+       RowBox[{"1", ",", "a", ",", "m"}], "]"}]}], "+", 
+     RowBox[{
+      RowBox[{"p", "[", "1", "]"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"2", 
+         RowBox[{"v", "[", 
+          RowBox[{"1", ",", "a", ",", "a"}], "]"}]}], "-", 
+        RowBox[{"v", "[", 
+         RowBox[{"1", ",", "a", ",", "m"}], "]"}]}], ")"}]}]}], 
+    ")"}]}]}]], "Input",
+ CellChangeTimes->{{3.682845406494494*^9, 3.6828454555095787`*^9}}],
+
+Cell["\<\
+Mortality of nonfocal, replaced by nonfocal offspring of a different type \
+than focal\
+\>", "Text",
+ CellChangeTimes->{{3.682845472978017*^9, 3.6828454882093973`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dv1amdt5", "=", 
+   RowBox[{
+    RowBox[{"mu", "[", "m", "]"}], 
+    RowBox[{"nu", "[", 
+     RowBox[{"zs", "[", 
+      RowBox[{"1", ",", "m"}], "]"}], "]"}], 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       FractionBox["1", "2"], 
+       RowBox[{"(", 
+        RowBox[{"1", "-", "d"}], ")"}], 
+       RowBox[{"p", "[", "2", "]"}]}], "+", 
+      RowBox[{
+       FractionBox["1", "2"], "d", " ", 
+       RowBox[{"Sum", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"f", "[", 
+           RowBox[{"ex", ",", 
+            RowBox[{"statex", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], ",", 
+            RowBox[{"statex", "[", 
+             RowBox[{"[", "2", "]"}], "]"}]}], "]"}], 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"p", "[", 
+             RowBox[{"phen", "[", 
+              RowBox[{"ex", ",", 
+               RowBox[{"statex", "[", 
+                RowBox[{"[", "1", "]"}], "]"}]}], "]"}], "]"}], "+", 
+            RowBox[{"p", "[", 
+             RowBox[{"phen", "[", 
+              RowBox[{"ex", ",", 
+               RowBox[{"statex", "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "]"}]}], ")"}]}], 
+         ",", 
+         RowBox[{"{", 
+          RowBox[{"ex", ",", "1", ",", "2"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"statex", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"a", ",", "a"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"a", ",", "m"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"m", ",", "m"}], "}"}]}], "}"}]}], "}"}]}], "]"}]}]}], 
+     ")"}], 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"v", "[", 
+       RowBox[{"1", ",", "a", ",", "a"}], "]"}], "-", 
+      RowBox[{"v", "[", 
+       RowBox[{"1", ",", "a", ",", "m"}], "]"}]}], ")"}]}]}], ";"}]], "Input",\
+
+ CellChangeTimes->{{3.682845489127758*^9, 3.682845652705119*^9}}],
+
+Cell["\<\
+Mortality of individual in remote patch, replaced by focal's offspring\
+\>", "Text",
+ CellChangeTimes->{{3.682845684654298*^9, 3.682845694533659*^9}}],
+
+Cell[BoxData[
+ RowBox[{"dv1amdt6", "=", 
+  RowBox[{
+   FractionBox["1", "2"], "d", " ", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"f", "[", 
+       RowBox[{"ex", ",", 
+        RowBox[{"statex", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], ",", 
+        RowBox[{"statex", "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}], "]"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"p", "[", 
+         RowBox[{"phen", "[", 
+          RowBox[{"ex", ",", 
+           RowBox[{"statex", "[", 
+            RowBox[{"[", "1", "]"}], "]"}]}], "]"}], "]"}], "+", 
+        RowBox[{"p", "[", 
+         RowBox[{"phen", "[", 
+          RowBox[{"ex", ",", 
+           RowBox[{"statex", "[", 
+            RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "]"}]}], ")"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"ex", ",", "1", ",", "2"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"statex", ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"a", ",", "a"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"a", ",", "m"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"m", ",", "m"}], "}"}]}], "}"}]}], "}"}]}], 
+    "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.682845654868635*^9, 3.682845679124524*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{640, 750},
+WindowMargins->{{Automatic, 661}, {216, Automatic}},
+FrontEndVersion->"7.0 for Linux x86 (64-bit) (February 25, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 133, 1, 194, "Title"],
+Cell[703, 25, 139, 2, 32, "Input"],
+Cell[845, 29, 293, 9, 32, "Input"],
+Cell[CellGroupData[{
+Cell[1163, 42, 102, 1, 73, "Section"],
+Cell[1268, 45, 203, 4, 51, "Text"],
+Cell[CellGroupData[{
+Cell[1496, 53, 103, 1, 39, "Subsection"],
+Cell[1602, 56, 279, 8, 31, "Text"],
+Cell[1884, 66, 682, 21, 77, "Input"],
+Cell[2569, 89, 719, 22, 71, "Text"],
+Cell[3291, 113, 2892, 81, 231, "Input"],
+Cell[CellGroupData[{
+Cell[6208, 198, 371, 8, 32, "Input"],
+Cell[6582, 208, 1413, 38, 68, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8032, 251, 587, 16, 32, "Input"],
+Cell[8622, 269, 796, 20, 68, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9455, 294, 1282, 31, 55, "Input"],
+Cell[10740, 327, 1112, 23, 52, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11901, 356, 296, 8, 59, "Subsection"],
+Cell[12200, 366, 153, 2, 31, "Text"],
+Cell[12356, 370, 660, 18, 32, "Input"],
+Cell[13019, 390, 447, 12, 51, "Text"],
+Cell[13469, 404, 580, 16, 32, "Input"],
+Cell[14052, 422, 185, 4, 51, "Text"],
+Cell[14240, 428, 451, 13, 32, "Input"],
+Cell[14694, 443, 220, 5, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14951, 453, 192, 4, 59, "Subsection"],
+Cell[15146, 459, 104, 1, 31, "Text"],
+Cell[15253, 462, 828, 26, 98, "Input"],
+Cell[16084, 490, 321, 9, 51, "Text"],
+Cell[16408, 501, 572, 16, 32, "Input"],
+Cell[16983, 519, 357, 10, 51, "Text"],
+Cell[17343, 531, 517, 14, 32, "Input"],
+Cell[17863, 547, 359, 10, 51, "Text"],
+Cell[18225, 559, 509, 15, 32, "Input"],
+Cell[18737, 576, 357, 10, 51, "Text"],
+Cell[19097, 588, 430, 12, 32, "Input"],
+Cell[19530, 602, 237, 6, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19804, 613, 177, 4, 59, "Subsection"],
+Cell[19984, 619, 104, 1, 31, "Text"],
+Cell[20091, 622, 579, 17, 32, "Input"],
+Cell[20673, 641, 359, 10, 51, "Text"],
+Cell[21035, 653, 450, 13, 32, "Input"],
+Cell[21488, 668, 357, 10, 51, "Text"],
+Cell[21848, 680, 478, 14, 32, "Input"],
+Cell[22329, 696, 195, 4, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22561, 705, 174, 3, 59, "Subsection"],
+Cell[22738, 710, 153, 2, 31, "Text"],
+Cell[22894, 714, 712, 19, 32, "Input"],
+Cell[23609, 735, 495, 12, 51, "Text"],
+Cell[24107, 749, 630, 17, 32, "Input"],
+Cell[24740, 768, 234, 5, 51, "Text"],
+Cell[24977, 775, 553, 14, 32, "Input"],
+Cell[25533, 791, 266, 5, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[25836, 801, 241, 5, 59, "Subsection"],
+Cell[26080, 808, 104, 1, 31, "Text"],
+Cell[26187, 811, 877, 27, 98, "Input"],
+Cell[27067, 840, 370, 10, 51, "Text"],
+Cell[27440, 852, 622, 17, 32, "Input"],
+Cell[28065, 871, 357, 10, 51, "Text"],
+Cell[28425, 883, 567, 15, 32, "Input"],
+Cell[28995, 900, 359, 10, 51, "Text"],
+Cell[29357, 912, 555, 15, 32, "Input"],
+Cell[29915, 929, 357, 10, 51, "Text"],
+Cell[30275, 941, 481, 13, 32, "Input"],
+Cell[30759, 956, 288, 7, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[31084, 968, 228, 5, 59, "Subsection"],
+Cell[31315, 975, 104, 1, 31, "Text"],
+Cell[31422, 978, 630, 18, 32, "Input"],
+Cell[32055, 998, 359, 10, 51, "Text"],
+Cell[32417, 1010, 499, 14, 32, "Input"],
+Cell[32919, 1026, 357, 10, 51, "Text"],
+Cell[33279, 1038, 527, 15, 32, "Input"],
+Cell[33809, 1055, 248, 5, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[34094, 1065, 126, 1, 39, "Subsection"],
+Cell[34223, 1068, 698, 19, 77, "Input"],
+Cell[34924, 1089, 462, 11, 55, "Input"],
+Cell[35389, 1102, 493, 13, 55, "Input"],
+Cell[35885, 1117, 2313, 64, 165, "Input"],
+Cell[38201, 1183, 2978, 84, 209, "Input"],
+Cell[41182, 1269, 2979, 84, 209, "Input"],
+Cell[CellGroupData[{
+Cell[44186, 1357, 538, 15, 55, "Input"],
+Cell[44727, 1374, 923, 28, 72, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[45687, 1407, 541, 15, 55, "Input"],
+Cell[46231, 1424, 925, 28, 72, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[47217, 1459, 106, 1, 73, "Section"],
+Cell[CellGroupData[{
+Cell[47348, 1464, 201, 4, 59, "Subsection"],
+Cell[47552, 1470, 105, 1, 31, "Text"],
+Cell[47660, 1473, 555, 17, 54, "Input"],
+Cell[48218, 1492, 192, 2, 31, "Text"],
+Cell[48413, 1496, 650, 21, 77, "Input"],
+Cell[49066, 1519, 131, 1, 31, "Text"],
+Cell[49200, 1522, 564, 19, 54, "Input"],
+Cell[49767, 1543, 134, 1, 31, "Text"],
+Cell[49904, 1546, 861, 28, 77, "Input"],
+Cell[50768, 1576, 178, 4, 31, "Text"],
+Cell[50949, 1582, 1964, 59, 209, "Input"],
+Cell[52916, 1643, 160, 3, 31, "Text"],
+Cell[53079, 1648, 1258, 38, 121, "Input"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

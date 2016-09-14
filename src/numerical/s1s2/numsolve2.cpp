@@ -185,7 +185,7 @@ double v2m = ((struct rparams *) params)->v2m;
     // 
 double zs1tplus1 = zs1 + 0.01*(f1a*(s1*(-v1a + v2m) - 2*d*k*mua*v1a*(-1 + zs1) - 2*(-1 + d)*k*mua*(-1 + p1)*(v1a - v1m)*(-1 + zs1)) + f1m*(s1*(-v1m + v2a) - 2*(-1 + d)*k*mum*p2*(v1a - v1m)*(-1 + zs1) - 2*d*k*mum*v1m*(-1 + zs1)));
 
-double zs2tplus1 = zs2 + 0.01*(f1a*(s1*(-v1a + v2m) - 2*d*k*mua*v1a*(-1 + zs1) - 2*(-1 + d)*k*mua*(-1 + p1)*(v1a - v1m)*(-1 + zs1)) + f1m*(s1*(-v1m + v2a) - 2*(-1 + d)*k*mum*p2*(v1a - v1m)*(-1 + zs1) - 2*d*k*mum*v1m*(-1 + zs1)));
+double zs2tplus1 = zs2 + 0.01*(f2a*(s2*(v1m - v2a) - 2*d*k*mua*v2a*(-1 + zs2) + 2*(-1 + d)*k*mua*p2*(v2a - v2m)*(-1 + zs2)) + f2m*(s2*(v1a - v2m) + 2*(-1 + d)*k*mum*(-1 + p1)*(v2a - v2m)*(-1 + zs2) - 2*d*k*mum*v2m*(-1 + zs2)));
 
 double p1tplus1 = bound(p1 + 0.01*(f1a*(-((1 - d)*mua*(-v1a + v1m)*(1 + k*pow(-1 + zs1,2))) + d*(f1a*mua*(v1a - v1m)*(1 + k*pow(-1 + zs1,2)) + f1m*mum*(v1a - v1m)*(1 + k*pow(-1 + zs1,2)) + f2a*mua*(-v2a + v2m)*(1 + k*pow(-1 + zs2,2)) + f2m*mum*(-v2a + v2m)*(1 + k*pow(-1 + zs2,2)))) + f2m*(d*(f1a*mua*(v1a - v1m)*(1 + k*pow(-1 + zs1,2)) + f1m*mum*(v1a - v1m)*(1 + k*pow(-1 + zs1,2)) + f2a*mua*(-v2a + v2m)*(1 + k*pow(-1 + zs2,2)) + f2m*mum*(-v2a + v2m)*(1 + k*pow(-1 + zs2,2))) - (1 - d)*mum*(v2a - v2m)*(1 + k*pow(-1 + zs2,2)))));
 
@@ -382,10 +382,10 @@ int main (int argc, char **argv)
         // selection gradients
         selgrads(&paramstruct, x_selgrad);
 
-        bool condition_zs1 = (fabs(paramstruct.zs1 - gsl_vector_get(x_selgrad, 0)) < 1e-7 || paramstruct.zs1 >= 0.999) || paramstruct.zs1 <= 0.001;
-        bool condition_zs2 = (fabs(paramstruct.zs2 - gsl_vector_get(x_selgrad, 0)) < 1e-7 || paramstruct.zs2 >= 0.999) || paramstruct.zs2 <= 0.001;
-        bool condition_p1 = (fabs(paramstruct.p1 - gsl_vector_get(x_selgrad, 0)) < 1e-7 || paramstruct.p1 >= 0.999) || paramstruct.p1 <= 0.001;
-        bool condition_p2 = (fabs(paramstruct.p2 - gsl_vector_get(x_selgrad, 0)) < 1e-7 || paramstruct.p2 >= 0.999) || paramstruct.p2 <= 0.001;
+        bool condition_zs1 = fabs(paramstruct.zs1 - gsl_vector_get(x_selgrad, 0)) < 1e-10; 
+        bool condition_zs2 = fabs(paramstruct.zs2 - gsl_vector_get(x_selgrad, 0)) < 1e-10; 
+        bool condition_p1 = (fabs(paramstruct.p1 - gsl_vector_get(x_selgrad, 0)) < 1e-10 || paramstruct.p1 >= 0.999) || paramstruct.p1 <= 0.001;
+        bool condition_p2 = (fabs(paramstruct.p2 - gsl_vector_get(x_selgrad, 0)) < 1e-10 || paramstruct.p2 >= 0.999) || paramstruct.p2 <= 0.001;
 
         if (condition_zs1 && condition_zs2 && condition_p1 && condition_p2)
         {
@@ -457,7 +457,7 @@ int main (int argc, char **argv)
         gsl_vector_set(p1_range, 0, paramstruct.p1);
         gsl_vector_set(p2_range, 0, paramstruct.p2);
 
-        if (iter % 1 == 0)
+        if (iter % 100 == 0)
         {
             write_data(&paramstruct,iter);
         }

@@ -1,36 +1,50 @@
 #!/usr/bin/env python
 
-import numpy as np
+import os, re, sys,math
 
-step = 0.02
-vvals = list(np.arange(0.01, 1.0, step))
-cvals = list(np.arange(0.01, 1.0, step))
+from numpy import *
 
-d = [ 0.05, 0.1, 0.5, 1.0 ]
+# frequency of envt 2
+#freq_patch_2 = list(arange(0.01,0.99,0.02))
+freq_patch_2 = list(arange(0.01,0.99,0.1))
+
+# avarage switch rate
+#sbar = list(arange(-1.5, 0.5, 2.0/50))
+sbar = list(arange(-1.5, 0.5, 2.0/10))
+k = [ 0.25 ]#[ 1.0, 2.0, 0.1 ]
+d = [ 0.1 ]
 
 exe = "./numsolve"
 
-pdh_init = [ 0.5 ] 
-phh_init = [ 0.5 ] 
+max_iter = 1000000
+
+# initial values for patch freqs and relatedness coeffs
+fval_init = " ".join([ str(1.0/4) for xi in range(0,4) ])
+
+# initial values for the reproductive values
+vval_init = " ".join([ str(1.0) for xi in range(0,4) ])
 
 ctr = 0
 
-for v_i in vvals:
-    for c_i in cvals:
-        for d_i in d:
-            for pdh_i in pdh_init: 
-                for phh_i in phh_init:
-                    print("echo " + str(ctr))
-                    ctr+=1
-                    print(exe + " 1000000 " 
-                            + str(d_i) + " " 
-                            + str(v_i) + " " 
-                            + str(c_i) + " "
-                            + str(0.33) + " "
-                            + str(0.33) + " "
-                            + str(pdh_i) + " "
-                            + str(phh_i) + " "
-                            + " 0.1 0.1 0.1 "
-                            + " 1.0 1.0 1.0 1.0 "
-                            )
-
+for f2 in freq_patch_2:
+    for sbar_i in sbar:
+        for k_i in k:
+            for d_i in d:
+                s2 = sqrt(((1.0-f2)/f2) * 10**(2*sbar_i))
+                s1 = 10**(2*sbar_i) / s2
+                print("echo " + str(ctr))
+                print(exe + " " + str(max_iter) + " " 
+                        + str(2) + " " 
+                        + str(1) + " " 
+                        + str(d_i) + " " 
+                        + str(s1) + " " 
+                        + str(s2) + " " 
+                        + str(k_i) + " " 
+                        + str(0.5) + " " 
+                        + str(0.5) + " " 
+                        + str(1.0) + " " 
+                        + str(1.0) + " " 
+                        + fval_init + " "
+                        + vval_init + " ")
+                ctr+=1
+            

@@ -169,10 +169,10 @@ int main (int argc, char **argv)
         // selection gradients
         selgrads(&paramstruct, x_selgrad);
 
-        bool condition_zs1 = (fabs(paramstruct.zs1 - gsl_vector_get(x_selgrad, 0)) < 1e-7 || paramstruct.zs1 >= 0.999) || paramstruct.zs1 <= 0.001;
-        bool condition_zs2 = (fabs(paramstruct.zs2 - gsl_vector_get(x_selgrad, 0)) < 1e-7 || paramstruct.zs2 >= 0.999) || paramstruct.zs2 <= 0.001;
-        bool condition_p1 = (fabs(paramstruct.p1 - gsl_vector_get(x_selgrad, 0)) < 1e-7 || paramstruct.p1 >= 0.999) || paramstruct.p1 <= 0.001;
-        bool condition_p2 = (fabs(paramstruct.p2 - gsl_vector_get(x_selgrad, 0)) < 1e-7 || paramstruct.p2 >= 0.999) || paramstruct.p2 <= 0.001;
+        bool condition_zs1 = fabs(paramstruct.zs1 - gsl_vector_get(x_selgrad, 0)) < 1e-10; 
+        bool condition_zs2 = fabs(paramstruct.zs2 - gsl_vector_get(x_selgrad, 0)) < 1e-10; 
+        bool condition_p1 = (fabs(paramstruct.p1 - gsl_vector_get(x_selgrad, 0)) < 1e-10 || paramstruct.p1 >= 0.999) || paramstruct.p1 <= 0.001;
+        bool condition_p2 = (fabs(paramstruct.p2 - gsl_vector_get(x_selgrad, 0)) < 1e-10 || paramstruct.p2 >= 0.999) || paramstruct.p2 <= 0.001;
 
         if (condition_zs1 && condition_zs2 && condition_p1 && condition_p2)
         {
@@ -244,7 +244,7 @@ int main (int argc, char **argv)
         gsl_vector_set(p1_range, 0, paramstruct.p1);
         gsl_vector_set(p2_range, 0, paramstruct.p2);
 
-        if (iter % 1 == 0)
+        if (iter % 100 == 0)
         {
             write_data(&paramstruct,iter);
         }
