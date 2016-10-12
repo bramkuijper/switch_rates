@@ -1,0 +1,80 @@
+double vtplus1(1,a,a);
+
+double vtplus1(1,a,m);
+
+double vtplus1(1,m,a);
+
+double vtplus1(1,m,m);
+
+double vtplus1(2,a,a);
+
+double vtplus1(2,a,m);
+
+double vtplus1(2,m,a);
+
+double vtplus1(2,m,m);
+
+for(int iter = 0; iter < 1e08; ++iter) {
+
+vtplus1(1,a,a) = bound0(v(1,a,a) + eul*(Power(E,q*zs(1))*s(1)*(-v(1,a,a) + v(2,m,m)) - (1 + (-1 + d)/2.)*mu(a)*v(1,a,a)*(1 + k*Power(zs(1),2)) + (mu(a)*((1 - d)*(1 - p(1)) + d*(f(1,a,a)*(2 - 2*p(1)) + f(2,m,m)*(2 - 2*p(1)) + f(1,m,m)*(2 - 2*p(2)) + f(2,a,a)*(2 - 2*p(2)) + f(1,a,m)*(2 - p(1) - p(2)) + f(2,a,m)*(2 - p(1) - p(2))))*(-v(1,a,a) + v(1,a,m))*(1 + k*Power(zs(1),2)))/2. + ((1 - d)*mu(a)*(1 - p(1))*(-v(1,a,a) + v(1,m,a))*(1 + k*Power(zs(1),2)))/2. + ((1 - d)*mu(a)*(p(1)*v(1,a,a) + (1 - p(1))*(-v(1,a,a) + v(1,a,m) + v(1,m,a)))*(1 + k*Power(zs(1),2)))/2. + (d*(2*f(1,a,a)*mu(a)*(p(1)*v(1,a,a) + (1 - p(1))*v(1,m,a))*(1 + k*Power(zs(1),2)) + 2*f(1,m,m)*mu(m)*(p(1)*v(1,a,m) + (1 - p(1))*v(1,m,m))*(1 + k*Power(zs(1),2)) + f(1,a,m)*(mu(m)*(p(1)*v(1,a,a) + (1 - p(1))*v(1,m,a))*(1 + k*Power(zs(1),2)) + mu(a)*(p(1)*v(1,a,m) + (1 - p(1))*v(1,m,m))*(1 + k*Power(zs(1),2))) + 2*f(2,a,a)*mu(a)*((1 - p(1))*v(2,a,a) + p(1)*v(2,m,a))*(1 + k*Power(zs(2),2)) + 2*f(2,m,m)*mu(m)*((1 - p(1))*v(2,a,m) + p(1)*v(2,m,m))*(1 + k*Power(zs(2),2)) + f(2,a,m)*(mu(m)*((1 - p(1))*v(2,a,a) + p(1)*v(2,m,a))*(1 + k*Power(zs(2),2)) + mu(a)*((1 - p(1))*v(2,a,m) + p(1)*v(2,m,m))*(1 + k*Power(zs(2),2)))))/2.));
+
+vtplus1(1,a,m) = bound0(v(1,a,m) + eul*(Power(E,q*zs(1))*s(1)*(-v(1,a,m) + v(2,m,a)) + mu(m)*(((1 - d)*p(2))/2. + (d*(2*f(1,a,a)*p(1) + 2*f(2,m,m)*p(1) + 2*f(1,m,m)*p(2) + 2*f(2,a,a)*p(2) + f(1,a,m)*(p(1) + p(2)) + f(2,a,m)*(p(1) + p(2))))/2.)*(v(1,a,a) - v(1,a,m))*(1 + k*Power(zs(1),2)) - (1 + (-1 + d)/2.)*mu(a)*v(1,a,m)*(1 + k*Power(zs(1),2)) + ((1 - d)*mu(m)*(p(1)*(2*v(1,a,a) - v(1,a,m)) + (1 - p(1))*v(1,m,a))*(1 + k*Power(zs(1),2)))/2. + ((1 - d)*mu(a)*(1 - p(1))*(-v(1,a,m) + v(1,m,m))*(1 + k*Power(zs(1),2)))/2. + (d*(2*f(1,a,a)*mu(a)*(p(1)*v(1,a,a) + (1 - p(1))*v(1,m,a))*(1 + k*Power(zs(1),2)) + 2*f(1,m,m)*mu(m)*(p(1)*v(1,a,m) + (1 - p(1))*v(1,m,m))*(1 + k*Power(zs(1),2)) + f(1,a,m)*(mu(m)*(p(1)*v(1,a,a) + (1 - p(1))*v(1,m,a))*(1 + k*Power(zs(1),2)) + mu(a)*(p(1)*v(1,a,m) + (1 - p(1))*v(1,m,m))*(1 + k*Power(zs(1),2))) + 2*f(2,a,a)*mu(a)*((1 - p(1))*v(2,a,a) + p(1)*v(2,m,a))*(1 + k*Power(zs(2),2)) + 2*f(2,m,m)*mu(m)*((1 - p(1))*v(2,a,m) + p(1)*v(2,m,m))*(1 + k*Power(zs(2),2)) + f(2,a,m)*(mu(m)*((1 - p(1))*v(2,a,a) + p(1)*v(2,m,a))*(1 + k*Power(zs(2),2)) + mu(a)*((1 - p(1))*v(2,a,m) + p(1)*v(2,m,m))*(1 + k*Power(zs(2),2)))))/2.));
+
+vtplus1(1,m,a) = bound0(v(1,m,a) + eul*(Power(E,q*zs(1))*s(1)*(-v(1,m,a) + v(2,a,m)) + ((1 - d)*mu(m)*p(2)*(v(1,a,a) - v(1,m,a))*(1 + k*Power(zs(1),2)))/2. - (1 + (-1 + d)/2.)*mu(m)*v(1,m,a)*(1 + k*Power(zs(1),2)) + mu(a)*(((1 - d)*(1 - p(1)))/2. + (d*(f(1,a,a)*(2 - 2*p(1)) + f(2,m,m)*(2 - 2*p(1)) + f(1,m,m)*(2 - 2*p(2)) + f(2,a,a)*(2 - 2*p(2)) + f(1,a,m)*(2 - p(1) - p(2)) + f(2,a,m)*(2 - p(1) - p(2))))/2.)*(-v(1,m,a) + v(1,m,m))*(1 + k*Power(zs(1),2)) + ((1 - d)*mu(a)*(p(2)*v(1,a,m) + (1 - p(2))*(-v(1,m,a) + 2*v(1,m,m)))*(1 + k*Power(zs(1),2)))/2. + (d*(2*f(1,a,a)*mu(a)*(p(2)*v(1,a,a) + (1 - p(2))*v(1,m,a))*(1 + k*Power(zs(1),2)) + 2*f(1,m,m)*mu(m)*(p(2)*v(1,a,m) + (1 - p(2))*v(1,m,m))*(1 + k*Power(zs(1),2)) + f(1,a,m)*(mu(m)*(p(2)*v(1,a,a) + (1 - p(2))*v(1,m,a))*(1 + k*Power(zs(1),2)) + mu(a)*(p(2)*v(1,a,m) + (1 - p(2))*v(1,m,m))*(1 + k*Power(zs(1),2))) + 2*f(2,a,a)*mu(a)*((1 - p(2))*v(2,a,a) + p(2)*v(2,m,a))*(1 + k*Power(zs(2),2)) + 2*f(2,m,m)*mu(m)*((1 - p(2))*v(2,a,m) + p(2)*v(2,m,m))*(1 + k*Power(zs(2),2)) + f(2,a,m)*(mu(m)*((1 - p(2))*v(2,a,a) + p(2)*v(2,m,a))*(1 + k*Power(zs(2),2)) + mu(a)*((1 - p(2))*v(2,a,m) + p(2)*v(2,m,m))*(1 + k*Power(zs(2),2)))))/2.));
+
+vtplus1(1,m,m) = bound0(v(1,m,m) + eul*(Power(E,q*zs(1))*s(1)*(-v(1,m,m) + v(2,a,a)) + ((1 - d)*mu(m)*p(2)*(v(1,a,m) - v(1,m,m))*(1 + k*Power(zs(1),2)))/2. + (mu(m)*((1 - d)*p(2) + d*(2*f(1,a,a)*p(1) + 2*f(2,m,m)*p(1) + 2*f(1,m,m)*p(2) + 2*f(2,a,a)*p(2) + f(1,a,m)*(p(1) + p(2)) + f(2,a,m)*(p(1) + p(2))))*(v(1,m,a) - v(1,m,m))*(1 + k*Power(zs(1),2)))/2. - (1 + (-1 + d)/2.)*mu(m)*v(1,m,m)*(1 + k*Power(zs(1),2)) + ((1 - d)*mu(m)*(p(2)*(v(1,a,m) + v(1,m,a) - v(1,m,m)) + (1 - p(2))*v(1,m,m))*(1 + k*Power(zs(1),2)))/2. + (d*(2*f(1,a,a)*mu(a)*(p(2)*v(1,a,a) + (1 - p(2))*v(1,m,a))*(1 + k*Power(zs(1),2)) + 2*f(1,m,m)*mu(m)*(p(2)*v(1,a,m) + (1 - p(2))*v(1,m,m))*(1 + k*Power(zs(1),2)) + f(1,a,m)*(mu(m)*(p(2)*v(1,a,a) + (1 - p(2))*v(1,m,a))*(1 + k*Power(zs(1),2)) + mu(a)*(p(2)*v(1,a,m) + (1 - p(2))*v(1,m,m))*(1 + k*Power(zs(1),2))) + 2*f(2,a,a)*mu(a)*((1 - p(2))*v(2,a,a) + p(2)*v(2,m,a))*(1 + k*Power(zs(2),2)) + 2*f(2,m,m)*mu(m)*((1 - p(2))*v(2,a,m) + p(2)*v(2,m,m))*(1 + k*Power(zs(2),2)) + f(2,a,m)*(mu(m)*((1 - p(2))*v(2,a,a) + p(2)*v(2,m,a))*(1 + k*Power(zs(2),2)) + mu(a)*((1 - p(2))*v(2,a,m) + p(2)*v(2,m,m))*(1 + k*Power(zs(2),2)))))/2.));
+
+vtplus1(2,a,a) = bound0(v(2,a,a) + eul*(Power(E,q*zs(2))*s(2)*(v(1,m,m) - v(2,a,a)) - (1 + (-1 + d)/2.)*mu(a)*v(2,a,a)*(1 + k*Power(zs(2),2)) + (mu(a)*((1 - d)*p(2) + d*(2*f(1,a,a)*p(1) + 2*f(2,m,m)*p(1) + 2*f(1,m,m)*p(2) + 2*f(2,a,a)*p(2) + f(1,a,m)*(p(1) + p(2)) + f(2,a,m)*(p(1) + p(2))))*(-v(2,a,a) + v(2,a,m))*(1 + k*Power(zs(2),2)))/2. + ((1 - d)*mu(a)*p(2)*(-v(2,a,a) + v(2,m,a))*(1 + k*Power(zs(2),2)))/2. + ((1 - d)*mu(a)*((1 - p(2))*v(2,a,a) + p(2)*(-v(2,a,a) + v(2,a,m) + v(2,m,a)))*(1 + k*Power(zs(2),2)))/2. + (d*(2*f(1,a,a)*mu(a)*(p(2)*v(1,a,a) + (1 - p(2))*v(1,m,a))*(1 + k*Power(zs(1),2)) + 2*f(1,m,m)*mu(m)*(p(2)*v(1,a,m) + (1 - p(2))*v(1,m,m))*(1 + k*Power(zs(1),2)) + f(1,a,m)*(mu(m)*(p(2)*v(1,a,a) + (1 - p(2))*v(1,m,a))*(1 + k*Power(zs(1),2)) + mu(a)*(p(2)*v(1,a,m) + (1 - p(2))*v(1,m,m))*(1 + k*Power(zs(1),2))) + 2*f(2,a,a)*mu(a)*((1 - p(2))*v(2,a,a) + p(2)*v(2,m,a))*(1 + k*Power(zs(2),2)) + 2*f(2,m,m)*mu(m)*((1 - p(2))*v(2,a,m) + p(2)*v(2,m,m))*(1 + k*Power(zs(2),2)) + f(2,a,m)*(mu(m)*((1 - p(2))*v(2,a,a) + p(2)*v(2,m,a))*(1 + k*Power(zs(2),2)) + mu(a)*((1 - p(2))*v(2,a,m) + p(2)*v(2,m,m))*(1 + k*Power(zs(2),2)))))/2.));
+
+vtplus1(2,a,m) = bound0(v(2,a,m) + eul*(Power(E,q*zs(2))*s(2)*(v(1,m,a) - v(2,a,m)) + mu(m)*(((1 - d)*(1 - p(1)))/2. + (d*(f(1,a,a)*(2 - 2*p(1)) + f(2,m,m)*(2 - 2*p(1)) + f(1,m,m)*(2 - 2*p(2)) + f(2,a,a)*(2 - 2*p(2)) + f(1,a,m)*(2 - p(1) - p(2)) + f(2,a,m)*(2 - p(1) - p(2))))/2.)*(v(2,a,a) - v(2,a,m))*(1 + k*Power(zs(2),2)) - (1 + (-1 + d)/2.)*mu(a)*v(2,a,m)*(1 + k*Power(zs(2),2)) + ((1 - d)*mu(m)*((1 - p(2))*(2*v(2,a,a) - v(2,a,m)) + p(2)*v(2,m,a))*(1 + k*Power(zs(2),2)))/2. + ((1 - d)*mu(a)*p(2)*(-v(2,a,m) + v(2,m,m))*(1 + k*Power(zs(2),2)))/2. + (d*(2*f(1,a,a)*mu(a)*(p(2)*v(1,a,a) + (1 - p(2))*v(1,m,a))*(1 + k*Power(zs(1),2)) + 2*f(1,m,m)*mu(m)*(p(2)*v(1,a,m) + (1 - p(2))*v(1,m,m))*(1 + k*Power(zs(1),2)) + f(1,a,m)*(mu(m)*(p(2)*v(1,a,a) + (1 - p(2))*v(1,m,a))*(1 + k*Power(zs(1),2)) + mu(a)*(p(2)*v(1,a,m) + (1 - p(2))*v(1,m,m))*(1 + k*Power(zs(1),2))) + 2*f(2,a,a)*mu(a)*((1 - p(2))*v(2,a,a) + p(2)*v(2,m,a))*(1 + k*Power(zs(2),2)) + 2*f(2,m,m)*mu(m)*((1 - p(2))*v(2,a,m) + p(2)*v(2,m,m))*(1 + k*Power(zs(2),2)) + f(2,a,m)*(mu(m)*((1 - p(2))*v(2,a,a) + p(2)*v(2,m,a))*(1 + k*Power(zs(2),2)) + mu(a)*((1 - p(2))*v(2,a,m) + p(2)*v(2,m,m))*(1 + k*Power(zs(2),2)))))/2.));
+
+vtplus1(2,m,a) = bound0(v(2,m,a) + eul*(Power(E,q*zs(2))*s(2)*(v(1,a,m) - v(2,m,a)) + ((1 - d)*mu(m)*(1 - p(1))*(v(2,a,a) - v(2,m,a))*(1 + k*Power(zs(2),2)))/2. - (1 + (-1 + d)/2.)*mu(m)*v(2,m,a)*(1 + k*Power(zs(2),2)) + mu(a)*(((1 - d)*p(2))/2. + (d*(2*f(1,a,a)*p(1) + 2*f(2,m,m)*p(1) + 2*f(1,m,m)*p(2) + 2*f(2,a,a)*p(2) + f(1,a,m)*(p(1) + p(2)) + f(2,a,m)*(p(1) + p(2))))/2.)*(-v(2,m,a) + v(2,m,m))*(1 + k*Power(zs(2),2)) + ((1 - d)*mu(a)*((1 - p(1))*v(2,a,m) + p(1)*(-v(2,m,a) + 2*v(2,m,m)))*(1 + k*Power(zs(2),2)))/2. + (d*(2*f(1,a,a)*mu(a)*(p(1)*v(1,a,a) + (1 - p(1))*v(1,m,a))*(1 + k*Power(zs(1),2)) + 2*f(1,m,m)*mu(m)*(p(1)*v(1,a,m) + (1 - p(1))*v(1,m,m))*(1 + k*Power(zs(1),2)) + f(1,a,m)*(mu(m)*(p(1)*v(1,a,a) + (1 - p(1))*v(1,m,a))*(1 + k*Power(zs(1),2)) + mu(a)*(p(1)*v(1,a,m) + (1 - p(1))*v(1,m,m))*(1 + k*Power(zs(1),2))) + 2*f(2,a,a)*mu(a)*((1 - p(1))*v(2,a,a) + p(1)*v(2,m,a))*(1 + k*Power(zs(2),2)) + 2*f(2,m,m)*mu(m)*((1 - p(1))*v(2,a,m) + p(1)*v(2,m,m))*(1 + k*Power(zs(2),2)) + f(2,a,m)*(mu(m)*((1 - p(1))*v(2,a,a) + p(1)*v(2,m,a))*(1 + k*Power(zs(2),2)) + mu(a)*((1 - p(1))*v(2,a,m) + p(1)*v(2,m,m))*(1 + k*Power(zs(2),2)))))/2.));
+
+vtplus1(2,m,m) = bound0((2 - 2*f(1,a,a)*vtplus1(1,a,a) - f(1,a,m)*vtplus1(1,a,m) - f(1,a,m)*vtplus1(1,m,a) - 2*f(1,m,m)*vtplus1(1,m,m) - 2*f(2,a,a)*vtplus1(2,a,a) - f(2,a,m)*vtplus1(2,a,m) - f(2,a,m)*vtplus1(2,m,a))/(2.*f(2,m,m)));
+
+if (
+
+fabs(vtplus1(1,a,a) - v(1,a,a))<=1e-07&&
+
+fabs(vtplus1(1,a,m) - v(1,a,m))<=1e-07&&
+
+fabs(vtplus1(1,m,a) - v(1,m,a))<=1e-07&&
+
+fabs(vtplus1(1,m,m) - v(1,m,m))<=1e-07&&
+
+fabs(vtplus1(2,a,a) - v(2,a,a))<=1e-07&&
+
+fabs(vtplus1(2,a,m) - v(2,a,m))<=1e-07&&
+
+fabs(vtplus1(2,m,a) - v(2,m,a))<=1e-07&&
+
+fabs(vtplus1(2,m,m) - v(2,m,m))<=1e-07)
+
+{break;}
+
+v(1,a,a) = vtplus1(1,a,a);
+
+v(1,a,m) = vtplus1(1,a,m);
+
+v(1,m,a) = vtplus1(1,m,a);
+
+v(1,m,m) = vtplus1(1,m,m);
+
+v(2,a,a) = vtplus1(2,a,a);
+
+v(2,a,m) = vtplus1(2,a,m);
+
+v(2,m,a) = vtplus1(2,m,a);
+
+v(2,m,m) = vtplus1(2,m,m);
+
+}
+
+gsl_vector_set(f,0,v(1,a,a));
+gsl_vector_set(f,1,v(1,a,m));
+gsl_vector_set(f,2,v(1,m,a));
+gsl_vector_set(f,3,v(1,m,m));
+gsl_vector_set(f,4,v(2,a,a));
+gsl_vector_set(f,5,v(2,a,m));
+gsl_vector_set(f,6,v(2,m,a));
+gsl_vector_set(f,7,v(2,m,m));
