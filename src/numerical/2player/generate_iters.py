@@ -17,7 +17,7 @@ d = [ 0.1, 0.5 ]
 
 exe = "./numsolve"
 
-max_iter = 1000000
+max_iter = 10000000
 
 # initial values for patch freqs and relatedness coeffs
 fval_init = " ".join([ str(1.0/6) for xi in range(0,6) ])

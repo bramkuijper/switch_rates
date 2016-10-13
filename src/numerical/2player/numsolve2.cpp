@@ -289,7 +289,6 @@ gsl_vector_set(f,3,raa2);
 gsl_vector_set(f,4,ram2);
 gsl_vector_set(f,5,rmm2);
 
-    
     return GSL_SUCCESS;
 }
 
