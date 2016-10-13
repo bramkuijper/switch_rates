@@ -11,9 +11,9 @@ freq_patch_2 = list(arange(0.01,0.99,0.1))
 # avarage switch rate
 #sbar = list(arange(-1.5, 0.5, 2.0/50))
 sbar = list(arange(-1.5, 0.5, 2.0/10))
-k = [ 0.01 ]#[ 1.0, 2.0, 0.1 ]
-q = [ 0.1 ]#[ 1.0, 2.0, 0.1 ]
-d = [ 0.1 ]
+k = [ 0.1, 0.5, 1.0 ]
+q = [ 0.1, 0.5 ]#[ 1.0, 2.0, 0.1 ]
+d = [ 0.1, 0.5 ]
 
 exe = "./numsolve"
 
